@@ -83,7 +83,7 @@ func lessThanTen(number: Int) -> Bool {
 class NamedShape {
   
   var numberOfSides: Int = 0
-  var name: String
+  var name: String!
   
   func simpleDescription() -> String {
     return "A Shape with \(numberOfSides) number of sides."
@@ -179,7 +179,7 @@ struct Cards {
   
   func fullDeck() -> [Cards] {
     var pack: [Cards] = []
-    var suits = [Suit.clubs,Suit.diamonds,Suit.hearts,Suit.spades]
+    let suits = [Suit.clubs,Suit.diamonds,Suit.hearts,Suit.spades]
     
     for suit in suits {
       for i in 1...13 {
@@ -263,47 +263,22 @@ extension Double {
 //print(protocolValue.simpleDescription)
 // protocolValue.anotherProperty
 
+
+//Error Handling
 enum PrintedError: Error {
   case outOfPaper
   case noToner
   case onFire
 }
 
-class SomeTextStorage: NSTextStorage {
-  
-  private var storage = NSTextStorage()
-  
-  // MARK: NSTextStorage Primitive Methods
-  // https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/TextStorageLayer/Tasks/Subclassing.html
-  
-  override var string: String {
-    return storage.string
+func send(job: Int, toPrinter printerName: String) throws -> String {
+ 
+  if printerName == "Never has Toner" {
+    throw PrintedError.noToner
   }
   
-  override func attributes(at location: Int, effectiveRange range: NSRangePointer?) -> [String : Any] {
-    return storage.attributes(at: location, effectiveRange: range)
-  }
-  
-  override func replaceCharacters(in range: NSRange, with str: String) {
-    beginEditing()
-    storage.replaceCharacters(in: range, with: str)
-    edited(.editedCharacters, range: range, changeInLength: (str as NSString).length - range.length)
-    endEditing()
-  }
-  
-  override func setAttributes(_ attrs: [String : Any]?, range: NSRange) {
-    beginEditing()
-    storage.setAttributes(attrs, range: range)
-    edited(.editedAttributes, range: range, changeInLength: 0)
-    endEditing()
-  }
-  
+  return "Job sent"
   
 }
-
-
-
-let textStore = SomeTextStorage()
-
 
 
